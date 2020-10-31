@@ -1,2 +1,3 @@
 # tetris
-Tetris in SMFL
+
+Tetris in SMFL. Still working on it
