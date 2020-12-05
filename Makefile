@@ -6,7 +6,7 @@ DEP := $(OBJ:.o=.d)
 CPPFLAGS := -ISFML-2.5.1/include -MMD -MP -DSFML_STATIC
 CXXFLAGS := -std=c++17 -Wall -W -pedantic
 LDFLAGS  := -LSFML-2.5.1/lib
-LDLIBS   := -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -static-libgcc -static-libstdc++ -static -lpthread
+LDLIBS   := -lsfml-graphics-s -lsfml-window-s -lsfml-system-s
 LDLIBS   += -lopengl32 -lwinmm -lgdi32
 
 .PHONY: all clean
