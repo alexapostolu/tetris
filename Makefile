@@ -1,24 +1,7 @@
-EXE := static.exe
-SRC := $(wildcard *.cpp)
-OBJ := $(SRC:.cpp=.o)
-DEP := $(OBJ:.o=.d)
+.PHONY: all build
 
-CPPFLAGS := -ISFML-2.5.1/include -MMD -MP -DSFML_STATIC
-CXXFLAGS := -std=c++17 -Wall -W -pedantic
-LDFLAGS  := -LSFML-2.5.1/lib
-LDLIBS   := -lsfml-graphics-s -lsfml-window-s -lsfml-system-s
-LDLIBS   += -lopengl32 -lwinmm -lgdi32
+all: build
 
-.PHONY: all clean
-
-all: $(EXE)
-
-$(EXE): $(OBJ)
-	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
-
-clean:
-	$(RM) $(EXE) $(OBJ) $(DEP)
-
-ifeq "$(MAKECMDGOALS)" ""
--include $(DEP)
-endif
+build: main.cpp
+	g++ -c main.cpp -IC:\dev\repos\tetris\SFML-2.5.1\include -DSFML_STATIC
+	g++ main.o -o tetris -LC:\dev\repos\tetris\SFML-2.5.1\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -static -pthread -lopengl32 -lwinmm -lgdi32
