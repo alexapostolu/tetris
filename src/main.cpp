@@ -293,7 +293,7 @@ int main()
         {
             switch (event.type)
             {
-            case sf::Event::KeyPressed:
+            case sf::Event::KeyPressed: {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
                     piece_move_side(grid, current_piece, current_index, -1);
                 else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -305,10 +305,11 @@ int main()
                 else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
                     piece_hard_drop(grid, current_piece, current_index, orientation, drop_clock);
                 break;
-
-            case sf::Event::Closed:
+            }
+            case sf::Event::Closed: {
                 window.close();
                 break;
+            }
             }
         }
 
