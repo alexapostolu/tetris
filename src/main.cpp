@@ -14,8 +14,6 @@ constexpr uint8_t GRID_HEIGHT = 20;
 
 bool NO_LOOP = false;
 
-bool can_hold_piece = true;
-
 std::array<Cord, 7> tetrominos{
     std::array<sf::Vector2i, 4>{ sf::Vector2i(3, 0), sf::Vector2i(4, 0), sf::Vector2i(5, 0), sf::Vector2i(6, 0) },
     std::array<sf::Vector2i, 4>{ sf::Vector2i(3, 0), sf::Vector2i(3, 1), sf::Vector2i(4, 1), sf::Vector2i(5, 1) },
@@ -243,30 +241,6 @@ void piece_hard_drop(Matrix& grid, Cord& current_piece, int& current_index, int&
     drop_clock.restart();
 }
 
-void piece_hold(Matrix& grid, Cord& current_piece, int& current_index, int& orientation, int& hold_index)
-{
-    if (!can_hold_piece)
-        return;
-
-    for (const sf::Vector2i& vec : current_piece)
-        grid[vec.y][vec.x].setFillColor(sf::Color(120, 120, 120));
-
-    if (hold_index == -1)
-    {
-        hold_index = current_index;
-        piece_new(grid, current_piece, current_index, orientation);
-
-        can_hold_piece = false;
-        return;
-    }
-
-    int current_index_temp = current_index;
-    piece_new(grid, current_piece, current_index, orientation, hold_index);
-    hold_index = current_index_temp;
-
-    can_hold_piece = false;
-}
-
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(630, 860), "Tetris");
@@ -277,8 +251,6 @@ int main()
 
     int current_index = rand() % 7;
     Cord current_piece = tetrominos[current_index];
-
-    int hold_index = -1;
 
     int orientation = 1;
 
@@ -307,22 +279,9 @@ int main()
                 if (event.type == sf::Event::Closed)
                 {
                     window.close();
-                    std::exit(0);
+                    return 0;
                 }
             }
-
-            /*
-            sf::Font font;
-            font.loadFromFile("font.ttf");
-
-            sf::Text text;
-            text.setFont(font);
-            text.setString("Hello world");
-            text.setCharacterSize(24); // in pixels, not points!
-            text.setFillColor(sf::Color(255));
-            
-            window.draw(text);
-            */
 
             continue;
         }
@@ -345,9 +304,6 @@ int main()
                     drop_speed = 0.15f;
                 else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
                     piece_hard_drop(grid, current_piece, current_index, orientation, drop_clock);
-                else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
-                    piece_hold(grid, current_piece, current_index, orientation, hold_index);
-
                 break;
 
             case sf::Event::Closed:
