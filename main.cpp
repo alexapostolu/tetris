@@ -6,8 +6,8 @@
 #include <array>
 #include <vector>
 
-typedef std::vector<std::vector<sf::RectangleShape> > Matrix;
-typedef std::array<sf::Vector2i, 4> Cord;
+using Matrix = std::vector<std::vector<sf::RectangleShape> >;
+using Coord = std::array<sf::Vector2i, 4>;
 
 constexpr uint8_t GRID_WIDTH = 10;
 constexpr uint8_t GRID_HEIGHT = 20;
@@ -16,7 +16,7 @@ bool NO_LOOP = false;
 
 bool can_hold_piece = true;
 
-std::array<Cord, 7> tetrominos{
+std::array<Coord, 7> tetrominos{
     std::array<sf::Vector2i, 4>{ sf::Vector2i(3, 0), sf::Vector2i(4, 0), sf::Vector2i(5, 0), sf::Vector2i(6, 0) },
     std::array<sf::Vector2i, 4>{ sf::Vector2i(3, 0), sf::Vector2i(3, 1), sf::Vector2i(4, 1), sf::Vector2i(5, 1) },
     std::array<sf::Vector2i, 4>{ sf::Vector2i(5, 0), sf::Vector2i(3, 1), sf::Vector2i(4, 1), sf::Vector2i(5, 1) },
@@ -101,7 +101,7 @@ void line_clear(Matrix& grid)
     }
 }
 
-void piece_new(Matrix& grid, Cord& current_piece, int& current_index, int& orientation, int piece_set = rand() % 7)
+void piece_new(Matrix& grid, Coord& current_piece, int& current_index, int& orientation, int piece_set = rand() % 7)
 {
     can_hold_piece = true;
 
@@ -121,7 +121,7 @@ void piece_new(Matrix& grid, Cord& current_piece, int& current_index, int& orien
     }
 }
 
-bool piece_move_down(Matrix& grid, Cord& current_piece, int current_index)
+bool piece_move_down(Matrix& grid, Coord& current_piece, int current_index)
 {
     for (const sf::Vector2i& cord : current_piece)
     {
@@ -156,7 +156,7 @@ bool piece_move_down(Matrix& grid, Cord& current_piece, int current_index)
     return false;
 }
 
-void piece_move_side(Matrix& grid, Cord& current_piece, int current_index, int direction)
+void piece_move_side(Matrix& grid, Coord& current_piece, int current_index, int direction)
 {
     for (const sf::Vector2i& cord : current_piece)
     {
@@ -190,7 +190,7 @@ void piece_move_side(Matrix& grid, Cord& current_piece, int current_index, int d
         grid[cord.y][cord.x].setFillColor(tetromino_colours[current_index]);
 }
 
-void piece_rotate(Matrix& grid, Cord& current_piece, int current_index, int& orientation)
+void piece_rotate(Matrix& grid, Coord& current_piece, int current_index, int& orientation)
 {
     orientation = orientation == 4 ? 1 : orientation + 1;
     for (int a = 0; a < current_piece.size(); ++a)
@@ -235,7 +235,7 @@ void piece_rotate(Matrix& grid, Cord& current_piece, int current_index, int& ori
         grid[cord.y][cord.x].setFillColor(false ? sf::Color(0, 255, 0) : tetromino_colours[current_index]);
 }
 
-void piece_hard_drop(Matrix& grid, Cord& current_piece, int& current_index, int& orientation, sf::Clock& drop_clock)
+void piece_hard_drop(Matrix& grid, Coord& current_piece, int& current_index, int& orientation, sf::Clock& drop_clock)
 {
     while (!piece_move_down(grid, current_piece, current_index));
 
@@ -243,7 +243,7 @@ void piece_hard_drop(Matrix& grid, Cord& current_piece, int& current_index, int&
     drop_clock.restart();
 }
 
-void piece_hold(Matrix& grid, Cord& current_piece, int& current_index, int& orientation, int& hold_index)
+void piece_hold(Matrix& grid, Coord& current_piece, int& current_index, int& orientation, int& hold_index)
 {
     if (!can_hold_piece)
         return;
@@ -276,7 +276,7 @@ int main()
     Matrix grid(GRID_HEIGHT, std::vector<sf::RectangleShape>(GRID_WIDTH));
 
     int current_index = rand() % 7;
-    Cord current_piece = tetrominos[current_index];
+    Coord current_piece = tetrominos[current_index];
 
     int hold_index = -1;
 
